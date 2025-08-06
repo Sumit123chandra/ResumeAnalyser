@@ -6,6 +6,9 @@ from io import BytesIO
 import time
 import re
 import os
+@app.route("/")
+def home():
+    return {"message": "ResumeAnalyser backend is running!"}
 
 app = Flask(__name__)
 
