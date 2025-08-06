@@ -1,0 +1,32 @@
+{
+  "name": "resumind-js",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "postinstall": "echo 'const Pdf = require(\\'./lib/pdf-parse.js\\');module.exports = Pdf;' > node_modules/pdf-parse/index.js"
+  },
+  "dependencies": {
+    "autoprefixer": "^10.4.21",
+    "axios": "^1.11.0",
+    "cloudinary": "^2.7.0",
+    "formidable": "^3.5.4",
+    "next": "15.4.5",
+    "openai": "^5.12.0",
+    "pdfjs-dist": "^3.9.179",
+    "postcss": "^8.5.6",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "zustand": "^5.0.7"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
+    "eslint": "^9",
+    "eslint-config-next": "15.4.5",
+    "tailwindcss": "^3.4.1"
+  }
+}

@@ -1,0 +1,65 @@
+# ====== FRONTEND (Next.js) ======
+node_modules/
+.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# Testing
+coverage/
+
+# Next.js build output
+.next/
+out/
+
+# Production
+build/
+
+# Misc
+.DS_Store
+*.pem
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Env files (never commit secrets)
+.env
+.env.*
+!.env.example  # allow example env file
+.env.local
+
+# Vercel
+.vercel
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# ====== BACKEND (Python / Flask) ======
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+instance/
+.env
+*.env
+
+# Virtual environment
+venv/
+env/
+.venv/
+
+# Python logs
+*.log
+
+# ====== OS / Editor ======
+Thumbs.db
+.vscode/
+.idea/

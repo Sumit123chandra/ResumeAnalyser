@@ -1,0 +1,8 @@
+.env
+.env.local
+
+# Python venv
+python-extractor/venv/
+
+python-extractor/venv/
+.git/
