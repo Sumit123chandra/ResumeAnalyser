@@ -62,7 +62,7 @@ export async function POST(req) {
     }
 
     // Forward to Python extractor
-    const extractorUrl = process.env.EXTRACTOR_URL || 'http://localhost:8000/extract';
+    const extractorUrl = process.env.EXTRACTOR_URL || 'https://resumeanalyser-vc95.onrender.com/extract';
     const pythonRes = await axios.post(extractorUrl, { url: downloadUrl }, { timeout: 120000 });
 
     return new Response(JSON.stringify(pythonRes.data), {

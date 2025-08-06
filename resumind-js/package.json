@@ -7,26 +7,25 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postinstall": "echo 'const Pdf = require(\\'./lib/pdf-parse.js\\');module.exports = Pdf;' > node_modules/pdf-parse/index.js"
+    "postinstall": "node -e \"require('fs').writeFileSync('node_modules/pdf-parse/index.js', 'const Pdf = require(\\'./lib/pdf-parse.js\\');module.exports = Pdf;');\""
   },
   "dependencies": {
-    "autoprefixer": "^10.4.21",
-    "axios": "^1.11.0",
-    "cloudinary": "^2.7.0",
-    "formidable": "^3.5.4",
+    "axios": "^1.7.2",
+    "cloudinary": "^2.2.0",
+    "firebase": "^10.12.3",
+    "lucide-react": "^0.400.0",
     "next": "15.4.5",
-    "openai": "^5.12.0",
-    "pdfjs-dist": "^3.9.179",
-    "postcss": "^8.5.6",
-    "react": "19.1.0",
-    "react-dom": "19.1.0",
-    "zustand": "^5.0.7"
+    "next-font-google": "^1.0.0",
+    "pdf-parse": "^1.1.1",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "zustand": "^4.5.4"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3",
-    "@tailwindcss/postcss": "^4",
-    "eslint": "^9",
+    "autoprefixer": "^10.4.19",
+    "eslint": "^8.57.0",
     "eslint-config-next": "15.4.5",
-    "tailwindcss": "^3.4.1"
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.4"
   }
 }

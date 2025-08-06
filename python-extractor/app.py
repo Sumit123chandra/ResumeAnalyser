@@ -8,6 +8,7 @@ import re
 import os
 from flask_cors import CORS
 
+
 # The Flask application instance must be defined at the top level
 app = Flask(__name__)
 CORS(app) # Enables CORS for all routes
@@ -118,8 +119,58 @@ def extract():
         print('extract error', repr(e))
         return jsonify({'error': 'Extraction failed', 'details': str(e)}), 500
 
+@app.route('/match', methods=['POST'])
+def match_resume_to_jd():
+    data = request.get_json() or {}
+    resume_url = data.get('resume_url')
+    jd_text = data.get('jd')
+    if not resume_url or not jd_text:
+        return jsonify({'error': 'Missing resume_url or jd'}), 400
+
+    try:
+        # Step 1: Extract resume text + parse
+        pdf_bytes = download_with_retry(resume_url)
+        pdf_file = BytesIO(pdf_bytes)
+        reader = PdfReader(pdf_file)
+        text_parts = []
+        for page_no, page in enumerate(reader.pages):
+            try:
+                t = page.extract_text()
+                if t:
+                    text_parts.append(t)
+            except Exception as e:
+                print('page error', page_no, e)
+        resume_text = '\n'.join(text_parts).strip()
+        parsed_resume = parse_resume(resume_text)
+
+        # Step 2: Extract skills from JD
+        jd_skills_found = SKILLS_RE.findall(jd_text)
+        jd_skills = sorted(list(set([s.lower() for s in jd_skills_found])))
+
+        # Step 3: Compare
+        resume_skills = set(parsed_resume.get("skills", []))
+        matched = sorted(list(resume_skills.intersection(jd_skills)))
+        missing = sorted(list(set(jd_skills) - resume_skills))
+
+        if jd_skills:
+            match_score = round(len(matched) / len(jd_skills) * 100, 2)
+        else:
+            match_score = 0.0
+
+        return jsonify({
+            "resume_parsed": parsed_resume,
+            "jd_skills": jd_skills,
+            "matched_skills": matched,
+            "missing_skills": missing,
+            "match_score": match_score
+        }), 200
+
+    except Exception as e:
+        print('match error', repr(e))
+        return jsonify({'error': 'Matching failed', 'details': str(e)}), 500
+
 if __name__ == '__main__':
     # This block is only for running the app locally, not for Render
     port = int(os.environ.get("PORT", 8000))
-    host = os.environ.get("HOST", "127.0.0.1")
+    host = os.environ.get("HOST", "0.0.0.0")
     app.run(host=host, port=port, debug=False)
