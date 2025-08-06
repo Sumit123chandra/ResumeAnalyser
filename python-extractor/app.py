@@ -168,9 +168,9 @@ def match_resume_to_jd():
     except Exception as e:
         print('match error', repr(e))
         return jsonify({'error': 'Matching failed', 'details': str(e)}), 500
-
 if __name__ == '__main__':
-    # This block is only for running the app locally, not for Render
+    # This block is only for running the app locally,not for Render
+
     port = int(os.environ.get("PORT", 8000))
     host = os.environ.get("HOST", "0.0.0.0")
     app.run(host=host, port=port, debug=False)

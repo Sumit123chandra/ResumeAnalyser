@@ -25,7 +25,7 @@ export default function HomePage() {
 
         <main className="space-y-6 animate-fade-in-late">
           <div className="bg-gray-800 p-6 rounded-3xl shadow-xl transition-all duration-300 hover:shadow-blue-700/30 hover:scale-[1.01] transform"> {/* Refined shadow */}
-            <h2 className="text-2xl font-semibold mb-4 text-blue-400"> {/* Consistent blue accent */}
+            <h2 className="text-2xl font-semibold mb-4 text-blue-400"> {/* Consistent blue accent wow*/}
               <span className="text-gray-400">1.</span> Upload your Resume
             </h2>
             <div className="border border-gray-700 rounded-lg p-4 bg-gray-700"> {/* Darker border */}
@@ -60,7 +60,6 @@ export default function HomePage() {
             </button>
           </div>
         </main>
-
         <section className="mt-8 bg-gray-800 p-6 rounded-3xl shadow-xl transition-all duration-300 hover:shadow-purple-700/30 hover:scale-[1.01] transform"> {/* Refined shadow */}
           <h3 className="text-xl font-semibold text-purple-400">Extracted resume text preview</h3>
           <div className="whitespace-pre-wrap border border-gray-700 p-4 mt-2 rounded-lg bg-gray-700 min-h-[120px] text-gray-300 text-sm overflow-auto max-h-96">
@@ -68,6 +67,7 @@ export default function HomePage() {
           </div>
         </section>
       </div>
+      
     </div>
   );
 }
