@@ -7,9 +7,9 @@ module.exports = {
   ],
   theme: {
     extend: {
-      // fontFamily: {
-      //   sans: ['var(--font-poppins)'],
-      // },
+      fontFamily: {
+        sans: ['var(--font-poppins)'],
+      },
       keyframes: {
         'fade-in': {
           '0%': { opacity: '0', transform: 'translateY(10px)' },
