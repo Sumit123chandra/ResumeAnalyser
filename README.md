@@ -63,7 +63,7 @@ CLOUDINARY_API_KEY=YOUR_CLOUDINARY_API_KEY
 CLOUDINARY_API_SECRET=YOUR_CLOUDINARY_API_SECRET
 
 # Python Extractor URL (for local development)
-EXTRACTOR_URL=[http://localhost:8000/extract](https://resumeanalyser-vc95.onrender.com)
+EXTRACTOR_URL=https://resumeanalyser-vc95.onrender.com
 
 How It Works
 User uploads a resume via the browser.
@@ -82,3 +82,4 @@ The AI returns a JSON object with the score, missing keywords, and suggestions, 
 
 
 I hope this README serves you well. Let me know if you need any other changes!
+
