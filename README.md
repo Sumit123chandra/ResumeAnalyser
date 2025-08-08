@@ -79,7 +79,3 @@ The extracted text is sent to the /api/analyze endpoint in your Next.js app.
 The Next.js API sends a prompt to the Google Gemini API for analysis.
 
 The AI returns a JSON object with the score, missing keywords, and suggestions, which is then displayed on the front end.
-
-
-I hope this README serves you well. Let me know if you need any other changes!
-
