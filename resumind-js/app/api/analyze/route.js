@@ -1,70 +1,64 @@
-import axios from "axios";
-import { NextResponse } from "next/server";
+// app/api/analyze/route.js
+import axios from 'axios';
+import { NextResponse } from 'next/server';
 
-export const runtime = "nodejs";
+export const runtime = 'nodejs';
 
 export async function POST(req) {
   try {
-    const { resumeUrl, jobDescription } = await req.json();
+    const { resumeText, jobDescription } = await req.json();
 
-    if (!resumeUrl || !jobDescription) {
-      return NextResponse.json(
-        { error: "Missing resumeUrl or jobDescription" },
-        { status: 400 }
-      );
+    if (!resumeText || !jobDescription) {
+      return NextResponse.json({ error: 'Missing resumeText or jobDescription' }, { status: 400 });
     }
 
     if (!process.env.GEMINI_API_KEY) {
-      return NextResponse.json(
-        { error: "Gemini API key missing" },
-        { status: 500 }
-      );
+      console.error('GEMINI_API_KEY is not set in environment variables.');
+      return NextResponse.json({ error: 'Server configuration error: Gemini API key is missing.' }, { status: 500 });
     }
 
-    // 🔹 Step 1: Call Flask to extract + parse
-    const backendRes = await axios.post(
-      `${process.env.BACKEND_URL}/extract`,
-      { url: resumeUrl }
-    );
-
-    const resumeText = backendRes.data.text;
-
-    // 🔹 Step 2: Send to Gemini
     const prompt = `
-Compare the resume with the job description.
-Return ONLY valid JSON:
-{
-  "score": number,
-  "missingKeywords": string[],
-  "suggestions": string[]
-}
-
-Resume:
-${resumeText}
-
-Job Description:
-${jobDescription}
-`;
+      Compare the following resume against the job description.
+      Provide a match score from 0 to 100, a list of missing keywords from the job description, and three short suggestions for improvement.
+      
+      Respond with a JSON object ONLY, with the following keys:
+      - score (number)
+      - missingKeywords (array of strings)
+      - suggestions (array of 3 strings)
+      
+      ---
+      Resume:
+      ${resumeText}
+      
+      ---
+      Job Description:
+      ${jobDescription}
+    `;
 
     const geminiRes = await axios.post(
       `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${process.env.GEMINI_API_KEY}`,
       {
         contents: [{ parts: [{ text: prompt }] }],
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
       }
     );
 
-    const rawText =
-      geminiRes.data.candidates[0].content.parts[0].text;
+    // This is the fix: extract the text and clean it before parsing
+    const geminiResponseText = geminiRes.data.candidates[0].content.parts[0].text;
+    const cleanJsonString = geminiResponseText.replace(/```json\s*|```/g, '').trim();
 
-    const cleanJson = rawText.replace(/```json|```/g, "").trim();
-    const parsed = JSON.parse(cleanJson);
+    const parsedData = JSON.parse(cleanJsonString);
 
-    return NextResponse.json(parsed, { status: 200 });
+    return NextResponse.json(parsedData, { status: 200 });
 
   } catch (err) {
-    console.error("Analyze error:", err.response?.data || err.message);
+    console.error('Gemini API error:', err.response?.data || err.message);
     return NextResponse.json(
-      { error: "Analysis failed", details: err.message },
+      { error: 'Gemini analysis failed', details: err.response?.data || err.message },
       { status: 500 }
     );
   }
