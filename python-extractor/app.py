@@ -13,6 +13,11 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app) # Enables CORS for all routes
 
+@app.route("/", methods=["GET"])
+def health():
+    return {"status": "ok", "service": "resume-analyser-backend"}, 200
+
+
 def download_with_retry(url, attempts=6, delay=1.0):
     last_error = None
     for i in range(1, attempts + 1):
